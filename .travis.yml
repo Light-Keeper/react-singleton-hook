@@ -8,5 +8,6 @@ deploy:
   provider: npm
   email: $EMAIL_ADDRESS
   api_key: $NPM_ACCESS_TOKEN
+  skip_cleanup: true
   on:
     branch: master
