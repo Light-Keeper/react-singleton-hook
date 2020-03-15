@@ -1,34 +1,28 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SingleItemContainer } from './SingleItemContainer';
 import { mount } from '../utils/env';
 import { warning } from '../utils/warning';
 
 let singletonContainerMounted = false;
-let mountQueue = [];
-let mountIntoContainer = (item) => {
-  mountQueue.push(item);
-};
+let singletonContainerRendered = false;
+let singletonContainerMountedAutomatically = false;
 
-const useValidations = () => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const isFirstRender = useRef(true);
-  if (isFirstRender && singletonContainerMounted) {
-    warning('SingletonContainer is mounted after singletonHook was used first time by some '
-      + 'component. You should mount SingletonContainer before any other component. '
-      + 'Alternatively, dont use SingletonContainer it at all, we will handle that for you.');
-  }
-  isFirstRender.current = false;
-  singletonContainerMounted = true;
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  useEffect(() => {
-    return () => {
-      warning('SingletonContainer is removed from DOM. its not supported, singleton hooks will stop updating.');
-    };
-  }, []);
-};
+let mountQueue = [];
+const mountIntoContainerDefault = (item) => { mountQueue.push(item); };
+let mountIntoContainer = mountIntoContainerDefault;
 
 export const SingletonContainer = () => {
-  useValidations();
+  singletonContainerRendered = true;
+  useEffect(() => {
+    if (singletonContainerMounted) {
+      warning('SingletonContainer is mounted second time. '
+        + 'You should mount SingletonContainer before any other component and never unmount it.'
+        + 'Alternatively, dont use SingletonContainer it at all, we will handle that for you.');
+    }
+    singletonContainerMounted = true;
+    return () => process.env.NODE_ENV !== 'test' && warning('SingletonContainer is removed from DOM. its not supported, singleton hooks will stop updating.');
+  }, []);
+
   const [hooks, setHooks] = useState([]);
 
   useEffect(() => {
@@ -39,13 +33,20 @@ export const SingletonContainer = () => {
   return <>{hooks.map((h, i) => <SingleItemContainer {...h} key={i}/>)}</>;
 };
 
-let singletonContainerMountedAutomatically = false;
 
 export const addHook = hook => {
-  if (!singletonContainerMounted && !singletonContainerMountedAutomatically) {
+  if (!singletonContainerRendered && !singletonContainerMountedAutomatically) {
     singletonContainerMountedAutomatically = true;
-    mount(SingleItemContainer);
+    mount(SingletonContainer);
   }
 
   mountIntoContainer(hook);
+};
+
+export const resetLocalStateForTests = () => {
+  singletonContainerMounted = false;
+  singletonContainerRendered = false;
+  singletonContainerMountedAutomatically = false;
+  mountQueue = [];
+  mountIntoContainer = mountIntoContainerDefault;
 };

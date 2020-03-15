@@ -30,8 +30,7 @@
     "lint": "eslint src test",
     "prepare": "npm run clean && npm run build",
     "pretest": "npm run lint",
-    "test": "jest",
-    "coverage": "codecov"
+    "test": "jest"
   },
   "peerDependencies": {
     "react": "^16.13.0"
@@ -63,7 +62,6 @@
     "@testing-library/react-native": "^5.0.3",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^25.1.0",
-    "codecov": "^3.6.5",
     "cross-env": "^7.0.2",
     "es3ify": "^0.2.2",
     "eslint": "^6.8.0",
