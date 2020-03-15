@@ -1,7 +1,13 @@
 language: node_js
 node_js: node
 cache: npm
+
+git:
+  quiet: true
+  submodules: false
+
 script:
+  - sed -i -e "s/00000000/$TRAVIS_BUILD_NUMBER/g" package.json
   - npm test
 
 deploy:
