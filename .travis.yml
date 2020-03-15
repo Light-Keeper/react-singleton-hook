@@ -3,3 +3,10 @@ node_js: node
 cache: npm
 script:
   - npm test
+
+deploy:
+  provider: npm
+  email: $EMAIL_ADDRESS
+  api_key: $NPM_ACCESS_TOKEN
+  on:
+    branch: master
