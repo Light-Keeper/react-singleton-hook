@@ -12,7 +12,7 @@ const config = {
   external: Object.keys(pkg.peerDependencies || {}).concat('react-dom'),
   output: {
     format: 'umd',
-    name: 'ReactRedux',
+    name: 'ReactSingletonHook',
     globals: {
       react: 'React',
       'react-dom': 'ReactDOM'
@@ -29,10 +29,6 @@ const config = {
     }),
     commonjs({
       namedExports: {
-        'node_modules/react-is/index.js': [
-          'isValidElementType',
-          'isContextConsumer'
-        ],
         'node_modules/react-dom/index.js': ['unstable_batchedUpdates']
       }
     })

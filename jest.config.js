@@ -24,6 +24,7 @@ const rnConfig = {
 
 module.exports = {
   projects: [standardConfig, rnConfig],
+  // the last project overriders the coverage, so coverage from CI is not useful. use this two for local testing:
   //projects: [standardConfig],
   //projects: [rnConfig],
   coverageDirectory: './coverage/',
