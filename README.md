@@ -28,8 +28,8 @@ modules](https://webpack.js.org/api/module-methods/#commonjs).
 ## Examples
 #### convert any custom hook into singleton hook
 
-In the code below user profile is not fetched until `useUserProfile` used by some component, 
-and once fetched it never reloaded again, the hook remains mounted forever into hidden component. 
+In the code below, the user profile is not fetched until `useUserProfile` used by some component, 
+and once fetched it is never reloaded again, the hook remains mounted forever into hidden component. 
 
 ```javascript
 import  { useEffect, useState } from 'react';
@@ -53,7 +53,7 @@ export const useUserProfile = singletonHook(init, useSessionImpl);
 ```
 
 #### dark/light mode switch 
-Whenever `Configurator` changes DarkMode, all subscribed components are updated.
+Whenever `Configurator` changes darkMode, all subscribed components are updated.
 
 ```javascript
 /***************    file:src/services/darkMode.js    ***************/  
