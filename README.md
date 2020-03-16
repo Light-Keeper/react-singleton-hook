@@ -94,7 +94,7 @@ const Configurator = () => {
 
 ```
 
-### imperatively read hook state for non-react code
+#### imperatively read hook state for non-react code
 ```javascript
 import { useState } from 'react';
 import { singletonHook } from 'react-singleton-hook';
@@ -114,7 +114,7 @@ export const setDarkMode = mode => globalSetMode(mode);
 export const getDarkMode = () => currentMode;
 ```
 
-### use react-redux (or any other context) inside singletonHook
+#### use react-redux (or any other context) inside singletonHook
 To use react-redux or any other context-based functionality, singleton hooks should be mounted under provider in your app.
 To do that, import `SingletonHooksContainer` from `react-singleton-hook` and mount anywhere in you app. 
 **SingletonHooksContainer must be rendered ealier then any component using singleton hook!**
@@ -156,7 +156,7 @@ const app = (
 ReactDOM.render(app, document.getElementById('root'));
 ```
 
-### top-level components updated before low-level components
+#### top-level components updated before low-level components
 
 ```javascript
 /***************    file:src/services/session.js    ***************/
