@@ -24,6 +24,19 @@ with a module bundler like [Webpack](https://webpack.js.org/) or
 [Browserify](http://browserify.org/) to consume [CommonJS 
 modules](https://webpack.js.org/api/module-methods/#commonjs).
 
+## What is a singleton hook
+- Singleton hooks very similar to React Context in terms of functionality. Each singleton hook has s body,
+you might think of it as of Context Provider body. Hook has a return value, it's similar to the value provided by context.
+Using a singleton hook from a component is like consuming a context.
+
+- Singleton hooks are lazy. the body is not executed until the hook is called by some component or other hook. 
+Once loaded, the hook body remains loaded forever.
+If you want to eager-load some Singleton hooks, use them at the top-level component of your App.
+
+- Singleton hooks do not require a provider or a special App structure. 
+Under the hood, it uses useState/useRef/useEffect and some less-known react features for performance and portability.
+
+- It's possible to mix into single app Singleton hooks, React-Redux hooks api, React Context hooks and any custom hook. 
 
 ## Examples
 #### convert any custom hook into singleton hook
