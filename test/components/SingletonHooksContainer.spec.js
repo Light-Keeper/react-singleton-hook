@@ -1,33 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import * as rtl from '@testing-library/react';
-import { SingletonContainer, resetLocalStateForTests, addHook } from '../../src/components/SingletonContainer';
+import { SingletonHooksContainer, resetLocalStateForTests, addHook } from '../../src/components/SingletonHooksContainer';
 
-describe('SingletonContainer', () => {
+describe('SingletonHooksContainer', () => {
   afterEach(() => {
     rtl.cleanup();
     resetLocalStateForTests();
   });
 
   it('renders', () => {
-    rtl.render(<SingletonContainer/>);
+    rtl.render(<SingletonHooksContainer/>);
   });
 
   it('second mount prints a warning', () => {
     let msg = '';
     const spy = jest.spyOn(console, 'warn').mockImplementation(data => { msg += data; });
     rtl.render(<div>
-      <SingletonContainer/>
-      <SingletonContainer/>
+      <SingletonHooksContainer/>
+      <SingletonHooksContainer/>
     </div>);
 
     spy.mockRestore();
-    expect(msg).toContain('SingletonContainer is mounted second time');
+    expect(msg).toContain('SingletonHooksContainer is mounted second time');
   });
 
   it('adds hooks to mounted container', () => {
     let hookStates = ['hello'];
 
-    rtl.render(<SingletonContainer/>);
+    rtl.render(<SingletonHooksContainer/>);
 
     rtl.act(() => {
       addHook({

@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import * as rtl from '@testing-library/react';
 import { singletonHook } from '../../src';
-import { resetLocalStateForTests } from '../../src/components/SingletonContainer';
+import { resetLocalStateForTests } from '../../src/components/SingletonHooksContainer';
 
 describe('singletonHook', () => {
   afterEach(() => {

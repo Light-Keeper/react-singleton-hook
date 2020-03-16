@@ -1,6 +1,6 @@
 {
   "name": "react-singleton-hook",
-  "version": "1.0.00000000",
+  "version": "2.0.00000000",
   "description": "Share custom hook state across all components",
   "keywords": [
     "react",
