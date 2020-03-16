@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { addHook } from './components/SingletonContainer';
+import { addHook } from './components/SingletonHooksContainer';
 import { batch } from './utils/env';
 
 export const singletonHook = (initValue, useHookBody) => {

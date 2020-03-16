@@ -1,7 +1,7 @@
 import { singletonHook } from './singletonHook';
-import { SingletonContainer } from './components/SingletonContainer';
+import { SingletonHooksContainer } from './components/SingletonHooksContainer';
 
 export {
   singletonHook,
-  SingletonContainer
+  SingletonHooksContainer
 };

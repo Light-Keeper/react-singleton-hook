@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import * as rtl from '@testing-library/react-native';
-import { singletonHook, SingletonContainer } from '../../src';
-import { resetLocalStateForTests } from '../../src/components/SingletonContainer';
+import { singletonHook, SingletonHooksContainer } from '../../src';
+import { resetLocalStateForTests } from '../../src/components/SingletonHooksContainer';
 
 describe('singletonHook', () => {
   afterEach(() => {
@@ -9,7 +9,7 @@ describe('singletonHook', () => {
     resetLocalStateForTests();
   });
 
-  it('asks to manually mount SingletonContainer', () => {
+  it('asks to manually mount SingletonHooksContainer', () => {
     let message = '';
     const spy = jest.spyOn(console, 'warn').mockImplementation((data) => { message += data; });
     const useHook = singletonHook(0, () => 1);
@@ -38,7 +38,7 @@ describe('singletonHook', () => {
 
     rtl.render(
       <>
-        <SingletonContainer/>
+        <SingletonHooksContainer/>
         <Tmp/>
       </>
     );
@@ -66,7 +66,7 @@ describe('singletonHook', () => {
 
     rtl.render(
       <>
-        <SingletonContainer/>
+        <SingletonHooksContainer/>
         <Tmp/>
       </>
     );
@@ -93,7 +93,7 @@ describe('singletonHook', () => {
 
     rtl.render(
       <>
-        <SingletonContainer/>
+        <SingletonHooksContainer/>
         <Tmp/>
       </>
     );

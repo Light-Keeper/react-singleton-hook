@@ -8,8 +8,8 @@ export const mount = C => {
   if (window && window.document) {
     render(<C/>, window.document.createElement('div'));
   } else {
-    warning('Can not mount SingletonContainer on server side. '
+    warning('Can not mount SingletonHooksContainer on server side. '
       + 'Did you manage to run useEffect on server? '
-      + 'Please mount SingletonContainer into your components tree manually.');
+      + 'Please mount SingletonHooksContainer into your components tree manually.');
   }
 };
