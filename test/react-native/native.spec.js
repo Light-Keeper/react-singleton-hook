@@ -1,4 +1,5 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import 'babel-polyfill';
+import React, { useEffect, useLayoutEffect, useState, useMemo } from 'react';
 import * as rtl from '@testing-library/react-native';
 import { singletonHook, SingletonHooksContainer } from '../../src';
 import { resetLocalStateForTests } from '../../src/components/SingletonHooksContainer';
@@ -9,7 +10,7 @@ describe('singletonHook', () => {
     resetLocalStateForTests();
   });
 
-  it('asks to manually mount SingletonHooksContainer', () => {
+  it('asks to manually mount SingletonHooksContainer', async () => {
     let message = '';
     const spy = jest.spyOn(console, 'warn').mockImplementation((data) => { message += data; });
     const useHook = singletonHook(0, () => 1);
@@ -19,14 +20,15 @@ describe('singletonHook', () => {
     };
 
     rtl.render(<Tmp/>);
+    await rtl.act(() => Promise.resolve());
 
     spy.mockRestore();
     expect(message).toContain('');
   });
 
-  it('works', () => {
+  it('works', async () => {
     const useHook = singletonHook({ a: 1 }, () => {
-      return { b: 2 };
+      return useMemo(() => ({ b: 2 }), []);
     });
 
     let messages = [];
@@ -42,16 +44,18 @@ describe('singletonHook', () => {
         <Tmp/>
       </>
     );
+    await rtl.act(() => Promise.resolve());
+
     expect(messages).toEqual([{ a: 1 }, { b: 2 }]);
   });
 
-  it('works when several hooks mounted at the same time', () => {
+  it('works when several hooks mounted at the same time', async () => {
     const useHook1 = singletonHook({ a: 1 }, () => {
-      return { b: 2 };
+      return useMemo(() => ({ b: 2 }), []);
     });
 
     const useHook2 = singletonHook({ a: 'x' }, () => {
-      return { b: 'y' };
+      return useMemo(() => ({ b: 'y' }), []);
     });
 
     let messages1 = [];
@@ -70,12 +74,13 @@ describe('singletonHook', () => {
         <Tmp/>
       </>
     );
+    await rtl.act(() => Promise.resolve());
 
     expect(messages1).toEqual([{ a: 1 }, { b: 2 }]);
     expect(messages2).toEqual([{ a: 'x' }, { b: 'y' }]);
   });
 
-  it('works when hook updates itself right after render', () => {
+  it('works when hook updates itself right after render', async () => {
     const useHook = singletonHook('initVal', () => {
       const [state, setState] = useState('initVal');
       useLayoutEffect(() => {
@@ -97,6 +102,7 @@ describe('singletonHook', () => {
         <Tmp/>
       </>
     );
+    await rtl.act(() => Promise.resolve());
 
     expect(messages).toEqual(['initVal', 'newVal']);
   });

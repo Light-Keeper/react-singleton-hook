@@ -40,7 +40,9 @@ export const addHook = hook => {
     mount(SingletonHooksContainer);
   }
 
-  mountIntoContainer(hook);
+  // add hook asynchronously to avoid React warning "Cannot update a component from inside the function body of a different component"
+  if (Promise && Promise.resolve) Promise.resolve().then(() => mountIntoContainer(hook));
+  else setTimeout(() => { mountIntoContainer(hook); }, 0);
 };
 
 export const resetLocalStateForTests = () => {
