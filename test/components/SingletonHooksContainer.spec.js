@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import React, { useEffect, useState } from 'react';
 import * as rtl from '@testing-library/react';
 import { SingletonHooksContainer, resetLocalStateForTests, addHook } from '../../src/components/SingletonHooksContainer';
@@ -8,11 +9,12 @@ describe('SingletonHooksContainer', () => {
     resetLocalStateForTests();
   });
 
-  it('renders', () => {
+  it('renders', async () => {
     rtl.render(<SingletonHooksContainer/>);
+    await rtl.act(() => Promise.resolve());
   });
 
-  it('second mount prints a warning', () => {
+  it('second mount prints a warning', async () => {
     let msg = '';
     const spy = jest.spyOn(console, 'warn').mockImplementation(data => { msg += data; });
     rtl.render(<div>
@@ -20,11 +22,12 @@ describe('SingletonHooksContainer', () => {
       <SingletonHooksContainer/>
     </div>);
 
+    await rtl.act(() => Promise.resolve());
     spy.mockRestore();
     expect(msg).toContain('SingletonHooksContainer is mounted second time');
   });
 
-  it('adds hooks to mounted container', () => {
+  it('adds hooks to mounted container', async () => {
     let hookStates = ['hello'];
 
     rtl.render(<SingletonHooksContainer/>);
@@ -43,10 +46,11 @@ describe('SingletonHooksContainer', () => {
       });
     });
 
+    await rtl.act(() => Promise.resolve());
     expect(hookStates).toEqual(['hello', 'tmp', 'world']);
   });
 
-  it('automatically mounts container into react-dom', () => {
+  it('automatically mounts container into react-dom', async () => {
     let hook1States = ['a'];
     let hook2States = ['1'];
     rtl.act(() => {
@@ -75,6 +79,7 @@ describe('SingletonHooksContainer', () => {
       });
     });
 
+    await rtl.act(() => Promise.resolve());
     expect(hook1States).toEqual(['a', 'b', 'c']);
     expect(hook2States).toEqual(['1', '2', '3']);
   });
