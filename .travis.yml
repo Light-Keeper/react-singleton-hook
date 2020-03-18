@@ -12,7 +12,7 @@ git:
 
 script:
   - sed -i -e "s/00000000/$TRAVIS_BUILD_NUMBER/g" react-singleton-hook/package.json
-  - (cd react-singleton-hook;  ../.travis/check_changed.sh && npm test)
+  - (cd react-singleton-hook; ../.travis/check_changed.sh && echo "react-singleton-hook changed, building NPM package" && npm test && npm build)
 
 deploy:
   provider: npm
@@ -21,4 +21,4 @@ deploy:
   skip_cleanup: true
   on:
     branch: master
-    condition: $DEPLOY_NPM = true
+    condition:  $(cd react-singleton-hook;  ../.travis/check_changed.sh; echo $?) -eq 0
