@@ -5,6 +5,7 @@ cache: npm
 branches:
   only:
     - master
+    - npm-deploy
 
 git:
   quiet: true
