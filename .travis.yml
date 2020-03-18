@@ -5,15 +5,14 @@ cache: npm
 branches:
   only:
     - master
-    - npm-deploy
 
 git:
   quiet: true
   submodules: false
 
 script:
-  - sed -i -e "s/00000000/$TRAVIS_BUILD_NUMBER/g" package.json
-  - npm test
+  - sed -i -e "s/00000000/$TRAVIS_BUILD_NUMBER/g" react-singleton-hook/package.json
+  - (cd react-singleton-hook;  ../.travis/check_changed.sh && npm test)
 
 deploy:
   provider: npm
@@ -21,4 +20,5 @@ deploy:
   api_key: $NPM_ACCESS_TOKEN
   skip_cleanup: true
   on:
-    branch: npm-deploy
+    branch: master
+    condition: $DEPLOY_NPM = true
