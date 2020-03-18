@@ -30,8 +30,7 @@
     "lint": "eslint src test",
     "prepare": "npm run clean && npm run build",
     "pretest": "npm run lint",
-    "test": "jest",
-    "ci:test": "if ../build.sh .; then jest; fi"
+    "test": "jest"
   },
   "peerDependencies": {
     "react": "^16.13.0"
