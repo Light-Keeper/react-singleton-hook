@@ -5,7 +5,6 @@ cache: npm
 branches:
   only:
     - master
-    - npm-deploy
 
 git:
   quiet: true
@@ -21,4 +20,4 @@ deploy:
   api_key: $NPM_ACCESS_TOKEN
   skip_cleanup: true
   on:
-    branch: npm-deploy
+    branch: master
