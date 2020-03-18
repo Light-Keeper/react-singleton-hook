@@ -20,4 +20,4 @@ deploy:
   api_key: $NPM_ACCESS_TOKEN
   skip_cleanup: true
   on:
-    branch: master
+    branch: npm-deploy
