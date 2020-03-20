@@ -5,3 +5,10 @@ export {
   singletonHook,
   SingletonHooksContainer
 };
+
+const ReactSingletonHook = {
+  singletonHook,
+  SingletonHooksContainer
+};
+
+export default ReactSingletonHook;

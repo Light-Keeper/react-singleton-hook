@@ -1,6 +1,6 @@
 {
   "name": "react-singleton-hook",
-  "version": "2.1.00000000",
+  "version": "2.2.00000000",
   "description": "Share custom hook state across all components",
   "keywords": [
     "react",
@@ -15,6 +15,7 @@
   "unpkg": "dist/react-singleton-hook.js",
   "module": "es/index.js",
   "files": [
+    "index.d.ts",
     "dist",
     "lib",
     "src",
