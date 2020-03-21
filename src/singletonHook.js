@@ -15,12 +15,12 @@ export const singletonHook = (initValue, useHookBody) => {
   return () => {
     const [state, setState] = useState(lastKnownState);
 
-    if (!mounted) {
-      mounted = true;
-      addHook({ initValue, useHookBody, applyStateChange });
-    }
-
     useEffect(() => {
+      if (!mounted) {
+        mounted = true;
+        addHook({ initValue, useHookBody, applyStateChange });
+      }
+
       consumers.push(setState);
       if (lastKnownState !== state) {
         setState(lastKnownState);

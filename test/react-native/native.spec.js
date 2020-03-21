@@ -1,4 +1,3 @@
-import 'babel-polyfill';
 import React, { useEffect, useLayoutEffect, useState, useMemo } from 'react';
 import * as rtl from '@testing-library/react-native';
 import { singletonHook, SingletonHooksContainer } from '../../src';
@@ -10,7 +9,7 @@ describe('singletonHook', () => {
     resetLocalStateForTests();
   });
 
-  it('asks to manually mount SingletonHooksContainer', async () => {
+  it('asks to manually mount SingletonHooksContainer', () => {
     let message = '';
     const spy = jest.spyOn(console, 'warn').mockImplementation((data) => { message += data; });
     const useHook = singletonHook(0, () => 1);
@@ -20,13 +19,11 @@ describe('singletonHook', () => {
     };
 
     rtl.render(<Tmp/>);
-    await rtl.act(() => Promise.resolve());
-
     spy.mockRestore();
     expect(message).toContain('');
   });
 
-  it('works', async () => {
+  it('works', () => {
     const useHook = singletonHook({ a: 1 }, () => {
       return useMemo(() => ({ b: 2 }), []);
     });
@@ -44,12 +41,10 @@ describe('singletonHook', () => {
         <Tmp/>
       </>
     );
-    await rtl.act(() => Promise.resolve());
-
     expect(messages).toEqual([{ a: 1 }, { b: 2 }]);
   });
 
-  it('works when several hooks mounted at the same time', async () => {
+  it('works when several hooks mounted at the same time', () => {
     const useHook1 = singletonHook({ a: 1 }, () => {
       return useMemo(() => ({ b: 2 }), []);
     });
@@ -74,13 +69,11 @@ describe('singletonHook', () => {
         <Tmp/>
       </>
     );
-    await rtl.act(() => Promise.resolve());
-
     expect(messages1).toEqual([{ a: 1 }, { b: 2 }]);
     expect(messages2).toEqual([{ a: 'x' }, { b: 'y' }]);
   });
 
-  it('works when hook updates itself right after render', async () => {
+  it('works when hook updates itself right after render', () => {
     const useHook = singletonHook('initVal', () => {
       const [state, setState] = useState('initVal');
       useLayoutEffect(() => {
@@ -102,8 +95,6 @@ describe('singletonHook', () => {
         <Tmp/>
       </>
     );
-    await rtl.act(() => Promise.resolve());
-
     expect(messages).toEqual(['initVal', 'newVal']);
   });
 });
