@@ -1,4 +1,3 @@
-import 'babel-polyfill';
 import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import * as rtl from '@testing-library/react';
 import { singletonHook } from '../../src';
@@ -10,7 +9,7 @@ describe('singletonHook', () => {
     resetLocalStateForTests();
   });
 
-  it('works', async () => {
+  it('works', () => {
     const useHook = singletonHook({ a: 1 }, () => {
       return { b: 2 };
     });
@@ -23,11 +22,10 @@ describe('singletonHook', () => {
     };
 
     rtl.render(<Tmp/>);
-    await rtl.act(() => Promise.resolve());
     expect(messages).toEqual([{ a: 1 }, { b: 2 }]);
   });
 
-  it('works when several hooks mounted at the same time', async () => {
+  it('works when several hooks mounted at the same time', () => {
     const useHook1 = singletonHook({ a: 1 }, () => {
       return useMemo(() => ({ b: 2 }), []);
     });
@@ -47,12 +45,11 @@ describe('singletonHook', () => {
     };
 
     rtl.render(<Tmp/>);
-    await rtl.act(() => Promise.resolve());
     expect(messages1).toEqual([{ a: 1 }, { b: 2 }]);
     expect(messages2).toEqual([{ a: 'x' }, { b: 'y' }]);
   });
 
-  it('works when hook updates itself right after render', async () => {
+  it('works when hook updates itself right after render', () => {
     const useHook = singletonHook('initVal', () => {
       const [state, setState] = useState('initVal');
       useLayoutEffect(() => {
@@ -69,7 +66,6 @@ describe('singletonHook', () => {
     };
 
     rtl.render(<Tmp/>);
-    await rtl.act(() => Promise.resolve());
     expect(messages).toEqual(['initVal', 'newVal']);
   });
 });
