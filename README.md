@@ -62,7 +62,7 @@ const useUserProfileImpl = () => {
   return profile;
 };
 
-export const useUserProfile = singletonHook(init, useSessionImpl);
+export const useUserProfile = singletonHook(init, useUserProfileImpl);
 ```
 
 #### dark/light mode switch 
