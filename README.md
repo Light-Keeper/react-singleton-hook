@@ -246,14 +246,13 @@ LoggerInView rendered with {"loggedIn":true,"user":{"name":"test"}}
 */
 ```
 
-### Pass callback that calculates initial state instead of a state itself
+### Initial state callback
 
-** From version 3.0 **
-
-Just like `useState`, `singletonHook` might accept a callback that calculates initial state instead of predefined initial state. 
-This callack is called once and only when the value is required. 
-You can use it for expensive-to-calculate initial values or to avoid an extra render (and a state flickering)
- when initial state changes before any component consumes the hook: 
+As of version 3.0, `singletonHook` accepts a callback that calculates initial state instead of predefined initial state. 
+This callback is called once and only when the value is required. 
+You can use it to calculate expensive initial values or
+avoid an extra render (and a state flickering)
+when initial state changes before any component consumes the hook: 
  
  #### example: subscribe components to pre-existing get/set data module
  
