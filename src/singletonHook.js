@@ -4,7 +4,8 @@ import { batch } from './utils/env';
 
 export const singletonHook = (initValue, useHookBody) => {
   let mounted = false;
-  let lastKnownState = initValue;
+  let initStateCalculated = false;
+  let lastKnownState = undefined;
   let consumers = [];
 
   const applyStateChange = (newState) => {
@@ -12,8 +13,16 @@ export const singletonHook = (initValue, useHookBody) => {
     batch(() => consumers.forEach(c => c(newState)));
   };
 
+  const stateInitializer = () => {
+    if (!initStateCalculated) {
+      lastKnownState = typeof initValue === 'function' ? initValue() : initValue;
+      initStateCalculated = true;
+    }
+    return lastKnownState;
+  };
+
   return () => {
-    const [state, setState] = useState(lastKnownState);
+    const [state, setState] = useState(stateInitializer);
 
     useEffect(() => {
       if (!mounted) {
