@@ -25,6 +25,46 @@ describe('singletonHook', () => {
     expect(messages).toEqual([{ a: 1 }, { b: 2 }]);
   });
 
+  it('does not recalculate the state', () => {
+    let counter = 0;
+    const useHook = singletonHook(() => counter++, () => {
+      return 'xxx';
+    });
+
+    let messages = [];
+    const Tmp = () => {
+      const message = useHook();
+      useEffect(() => { messages.push(message); }, [message]);
+      return null;
+    };
+
+    rtl.render(<div>
+      <Tmp/>
+      <Tmp/>
+    </div>);
+
+    expect(messages).toEqual([0, 0, 'xxx', 'xxx']);
+    expect(counter).toEqual(1);
+  });
+
+  it('might be initialized with callback', () => {
+    let state = 'init state';
+    const useHook = singletonHook(() => state, () => {
+      return 'state-in-body';
+    });
+
+    let messages = [];
+    const Tmp = () => {
+      const message = useHook();
+      useEffect(() => { messages.push(message); }, [message]);
+      return null;
+    };
+
+    state = 'init state changed before render';
+    rtl.render(<Tmp/>);
+    expect(messages).toEqual(['init state changed before render', 'state-in-body']);
+  });
+
   it('works when several hooks mounted at the same time', () => {
     const useHook1 = singletonHook({ a: 1 }, () => {
       return useMemo(() => ({ b: 2 }), []);
