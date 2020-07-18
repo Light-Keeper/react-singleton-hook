@@ -31,11 +31,8 @@ workflows:
   test:
     jobs:
       - test
-
-  publish:
-    jobs:
-      - publish
-    filters:
-      branches:
-        only: master
+      - publish:
+          filters:
+            branches:
+              only: master
 
