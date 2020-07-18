@@ -11,7 +11,7 @@ jobs:
           steps:
             - run: npm install
             - run: npm test
-            - run: npm lint
+            - run: npm run lint
             - run: npm build
 
   publish:
@@ -23,7 +23,7 @@ jobs:
           steps:
             - run: npm install
             - run: npm test
-            - run: npm lint
+            - run: npm run lint
             - run: npm build
             - run: npm publish
 
