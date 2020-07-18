@@ -30,11 +30,11 @@ jobs:
 workflows:
   test:
     jobs:
-      - build-and-test
+      - test
 
   publish:
     jobs:
-      - build-and-test
+      - publish
     filters:
       branches:
         only: master
