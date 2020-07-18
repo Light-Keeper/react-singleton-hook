@@ -25,7 +25,7 @@ jobs:
             - run: npm test
             - run: npm run lint
             - run: npm run build
-            - run: npm publish
+            - run: npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}" && npm publish
 
 workflows:
   test:
