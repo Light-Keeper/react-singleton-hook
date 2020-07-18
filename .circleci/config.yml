@@ -12,7 +12,7 @@ jobs:
             - run: npm install
             - run: npm test
             - run: npm run lint
-            - run: npm build
+            - run: npm run build
 
   publish:
     executor:
@@ -24,7 +24,7 @@ jobs:
             - run: npm install
             - run: npm test
             - run: npm run lint
-            - run: npm build
+            - run: npm run build
             - run: npm publish
 
 workflows:
