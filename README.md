@@ -254,7 +254,7 @@ You can use it to calculate expensive initial values or
 avoid an extra render (and a state flickering)
 when initial state changes before any component consumes the hook: 
  
- #### example: subscribe components to pre-existing get/set data module
+#### example: subscribe components to pre-existing get/set data module
  
  ```javascript
 /***************    file:src/services/darkMode.js    ***************/
