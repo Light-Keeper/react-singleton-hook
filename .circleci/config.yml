@@ -1,38 +1,45 @@
 version: 2.1
-orbs:
-  node: circleci/node@1.1.6
+
+cache_keys:
+  - &deps_cache_key 'v1-deps-{{ checksum "package-lock-original.json" }}'
+
+commands:
+  npm_install:
+    steps:
+      - run: cp package-lock.json package-lock-original.json
+      - restore_cache: { key: *deps_cache_key }
+      - run: npm install
+      - save_cache:
+          key: *deps_cache_key
+          paths: [ node_modules ]
+
 jobs:
   test:
-    executor:
-      name: node/default
+    docker:
+      - image: cimg/node:12.19
     steps:
       - checkout
-      - node/with-cache:
-          steps:
-            - run: npm install
-            - run: npm test
-            - run: npm run lint
-            - run: npm run build
+      - npm_install
+      - run: npm test
+      - run: npm run lint
+      - run: npm run build
 
-  publish:
-    executor:
-      name: node/default
+  deploy:
+    docker:
+      - image: cimg/node:12.19
     steps:
       - checkout
-      - node/with-cache:
-          steps:
-            - run: npm install
-            - run: npm test
-            - run: npm run lint
-            - run: npm run build
-            - run: npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}" && npm publish
+      - npm_install
+      - run: npm run build
+      - run:
+          name: publish
+          command: npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}" && npm publish
 
 workflows:
-  test:
+  Test and Deploy:
     jobs:
       - test
-      - publish:
-          filters:
-            branches:
-              only: master
-
+      - deploy:
+         requires: [test]
+         filters:
+           branches: { only: [ master ] }
