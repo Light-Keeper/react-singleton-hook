@@ -1,7 +1,7 @@
 version: 2.1
 
 cache_keys:
-  - &deps_cache_key 'v1-deps-{{ checksum "package-lock-original.json" }}'
+  - &deps_cache_key 'v2-deps-node-14.16-{{ checksum "package-lock-original.json" }}'
 
 commands:
   npm_install:
