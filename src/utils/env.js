@@ -1,7 +1,16 @@
 import React from 'react';
-/* eslint-disable import/no-unresolved */
-import { unstable_batchedUpdates, render } from 'react-dom';
 import { warning } from './warning';
+
+let unstable_batchedUpdates, render;
+
+try {
+  const reactDom = require('react-dom');
+  unstable_batchedUpdates = reactDom.unstable_batchedUpdates;
+  render = reactDom.render;
+} catch (e) {
+  unstable_batchedUpdates = cb => cb();
+  render = () => { throw new Error('can not render without react-dom. Mount SingletonHooksContainer manually'); };
+}
 
 export const batch = cb => unstable_batchedUpdates(cb);
 export const mount = C => {
