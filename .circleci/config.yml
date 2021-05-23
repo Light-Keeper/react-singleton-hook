@@ -1,14 +1,13 @@
 version: 2.1
 
 cache_keys:
-  - &deps_cache_key 'v2-deps-node-14.16-{{ checksum "package-lock-original.json" }}'
+  - &deps_cache_key 'v2-deps-node-14.16-{{ checksum "yarn.lock" }}'
 
 commands:
-  npm_install:
+  install:
     steps:
-      - run: cp package-lock.json package-lock-original.json
       - restore_cache: { key: *deps_cache_key }
-      - run: npm install
+      - run: yarn install
       - save_cache:
           key: *deps_cache_key
           paths: [ node_modules ]
@@ -19,18 +18,18 @@ jobs:
       - image: cimg/node:14.16
     steps:
       - checkout
-      - npm_install
-      - run: npm test
-      - run: npm run lint
-      - run: npm run build
+      - install
+      - run: yarn test
+      - run: yarn lint
+      - run: yarn build
 
   deploy:
     docker:
       - image: cimg/node:14.16
     steps:
       - checkout
-      - npm_install
-      - run: npm run build
+      - install
+      - run: yarn build
       - run:
           name: publish
           command: npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}" && npm publish
