@@ -20,7 +20,6 @@ export const SingletonHooksContainer = () => {
         + 'Alternatively, dont use SingletonHooksContainer it at all, we will handle that for you.');
     }
     SingletonHooksContainerMounted = true;
-    return () => process.env.NODE_ENV !== 'test' && warning('SingletonHooksContainer is removed from DOM. its not supported, singleton hooks will stop updating.');
   }, []);
 
   const [hooks, setHooks] = useState([]);
