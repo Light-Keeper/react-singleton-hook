@@ -9,6 +9,7 @@ const env = process.env.NODE_ENV;
 
 const config = {
   input: 'src/index.js',
+  context: 'this',
   external: Object.keys(pkg.peerDependencies || {}).concat('react-dom'),
   output: {
     format: 'umd',
