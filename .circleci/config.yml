@@ -16,7 +16,7 @@ commands:
 jobs:
   test:
     docker:
-      - image: cimg/node:12.19
+      - image: cimg/node:14.16
     steps:
       - checkout
       - npm_install
@@ -26,7 +26,7 @@ jobs:
 
   deploy:
     docker:
-      - image: cimg/node:12.19
+      - image: cimg/node:14.16
     steps:
       - checkout
       - npm_install
