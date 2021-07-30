@@ -1,14 +1,16 @@
 import { singletonHook } from './singletonHook';
-import { SingletonHooksContainer } from './components/SingletonHooksContainer';
+import { SingletonHooksContainer, resetLocalStateForTests } from './components/SingletonHooksContainer';
 
 export {
   singletonHook,
-  SingletonHooksContainer
+  SingletonHooksContainer,
+  resetLocalStateForTests
 };
 
 const ReactSingletonHook = {
   singletonHook,
-  SingletonHooksContainer
+  SingletonHooksContainer,
+  resetLocalStateForTests
 };
 
 export default ReactSingletonHook;
