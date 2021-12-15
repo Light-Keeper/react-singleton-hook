@@ -3,9 +3,10 @@ React Singleton Hook
 
 Manage global state of your React app using hooks. 
 
-[![build status](https://img.shields.io/travis/Light-Keeper/react-singleton-hook/master.svg?style=flat-square)](https://travis-ci.org/Light-Keeper/react-singleton-hook) 
-[![npm version](https://img.shields.io/npm/v/react-singleton-hook.svg?style=flat-square)](https://www.npmjs.com/package/react-singleton-hook)
-[![npm downloads](https://img.shields.io/npm/dm/react-singleton-hook.svg?style=flat-square)](https://www.npmjs.com/package/react-singleton-hook)
+[![build status](https://img.shields.io/circleci/build/github/Light-Keeper/react-singleton-hook?logo=circleci)](https://app.circleci.com/pipelines/github/Light-Keeper/react-singleton-hook) 
+[![npm version](https://img.shields.io/npm/v/react-singleton-hook)](https://www.npmjs.com/package/react-singleton-hook)
+[![npm downloads](https://img.shields.io/npm/dm/react-singleton-hook.svg)](https://www.npmjs.com/package/react-singleton-hook)
+![GitHub last commit](https://img.shields.io/github/last-commit/Light-Keeper/react-singleton-hook)
 
 ## Installation
 
