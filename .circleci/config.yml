@@ -1,7 +1,7 @@
 version: 2.1
 
 cache_keys:
-  - &deps_cache_key 'v2-deps-node-14.16-{{ checksum "yarn.lock" }}'
+  - &deps_cache_key 'v2-deps-node-14.17-{{ checksum "yarn.lock" }}'
 
 commands:
   install:
@@ -15,7 +15,7 @@ commands:
 jobs:
   test:
     docker:
-      - image: cimg/node:14.16
+      - image: cimg/node:14.17
     steps:
       - checkout
       - install
@@ -25,7 +25,7 @@ jobs:
 
   deploy:
     docker:
-      - image: cimg/node:14.16
+      - image: cimg/node:14.17
     steps:
       - checkout
       - install
