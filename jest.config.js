@@ -8,6 +8,7 @@ const NORMAL_TEST_FOLDERS = ['components', 'integration'];
 
 const standardConfig = {
   ...defaults,
+  testEnvironment: 'jest-environment-jsdom',
   displayName: 'ReactDOM',
   testMatch: NORMAL_TEST_FOLDERS.map(testFolderPath),
 };

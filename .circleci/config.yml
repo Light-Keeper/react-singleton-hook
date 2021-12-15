@@ -41,4 +41,4 @@ workflows:
       - deploy:
          requires: [test]
          filters:
-           branches: { only: [ master ] }
+           branches: { only: [ main ] }

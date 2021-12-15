@@ -13,6 +13,7 @@ const config = {
   external: Object.keys(pkg.peerDependencies || {}).concat('react-dom'),
   output: {
     format: 'umd',
+    exports: 'named',
     name: 'ReactSingletonHook',
     globals: {
       react: 'React',
@@ -26,12 +27,10 @@ const config = {
       runtimeHelpers: true
     }),
     replace({
-      'process.env.NODE_ENV': JSON.stringify(env)
+      'process.env.NODE_ENV': JSON.stringify(env),
+      preventAssignment: true,
     }),
     commonjs({
-      namedExports: {
-        'node_modules/react-dom/index.js': ['unstable_batchedUpdates']
-      }
     })
   ]
 };
