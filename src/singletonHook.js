@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import { addHook } from './components/SingletonHooksContainer';
 import { batch } from './utils/env';
 
-export const singletonHook = (initValue, useHookBody) => {
+export const singletonHook = (initValue, useHookBody, unmountIfNoConsumers = false) => {
   let mounted = false;
+  let removeHook = undefined;
   let initStateCalculated = false;
   let lastKnownState = undefined;
   let consumers = [];
@@ -27,14 +28,20 @@ export const singletonHook = (initValue, useHookBody) => {
     useEffect(() => {
       if (!mounted) {
         mounted = true;
-        addHook({ initValue, useHookBody, applyStateChange });
+        removeHook = addHook({ initValue, useHookBody, applyStateChange });
       }
 
       consumers.push(setState);
       if (lastKnownState !== state) {
         setState(lastKnownState);
       }
-      return () => { consumers.splice(consumers.indexOf(setState), 1); };
+      return () => {
+        consumers.splice(consumers.indexOf(setState), 1);
+        if (consumers.length === 0 && unmountIfNoConsumers) {
+          removeHook();
+          mounted = false;
+        }
+      };
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
