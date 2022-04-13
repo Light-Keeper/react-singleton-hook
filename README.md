@@ -297,6 +297,19 @@ const App = () => {
 
 ```     
 
+### Unmounting hooks when there are no consumers
+
+You can pass the last optional parameter `options` to the `singletonHook` to 
+configure if the hook should be unmounted when no one consumes it:
+```js
+
+const useHook = singletonHook(
+  initVal,
+  () => { /*hook body*/ }, 
+  { unmountIfNoConsumers: true }
+);
+```
+
 ## React Native
 To use this library with react-native you always have to mount `SingletonHooksContainer` manually. 
 See how to do it in example: *use react-redux (or any other context) inside singletonHook*

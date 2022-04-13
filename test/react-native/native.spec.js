@@ -101,7 +101,7 @@ describe('singletonHook', () => {
   it('unmounts hook if no consumers', () => {
     const unmountCallback = jest.fn();
     const initVal = 'initVal';
-    const useHook = singletonHook(initVal, () => useEffect(() => unmountCallback), true);
+    const useHook = singletonHook(initVal, () => useEffect(() => unmountCallback), { unmountIfNoConsumers: true });
 
     const Tmp = () => {
       useHook();

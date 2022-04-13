@@ -2,12 +2,15 @@ import { useEffect, useState } from 'react';
 import { addHook } from './components/SingletonHooksContainer';
 import { batch } from './utils/env';
 
-export const singletonHook = (initValue, useHookBody, unmountIfNoConsumers = false) => {
+export const singletonHook = (initValue, useHookBody, options = {}) => {
   let mounted = false;
   let removeHook = undefined;
   let initStateCalculated = false;
   let lastKnownState = undefined;
   let consumers = [];
+  let {
+    unmountIfNoConsumers = false
+  } = options;
 
   const applyStateChange = (newState) => {
     lastKnownState = newState;

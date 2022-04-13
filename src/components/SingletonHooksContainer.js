@@ -11,7 +11,7 @@ let mountQueue = [];
 const mountIntoContainerDefault = (item) => {
   mountQueue.push(item);
   return () => {
-    throw new Error('damn');
+    throw new Error('Can not unmount container! It is like a bug in react-singleton-hook library, because of unmountIfNoConsumers: true');
     // mountQueue = mountQueue.filter(i => i !== item);
   };
 };
