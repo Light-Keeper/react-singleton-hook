@@ -9,6 +9,7 @@ module.exports = {
   plugins: [
     ['@babel/proposal-object-rest-spread', { loose }],
     '@babel/transform-react-jsx',
+    '@babel/plugin-transform-object-assign',
     cjs && ['@babel/transform-modules-commonjs', { loose }],
   ].filter(Boolean)
 };
