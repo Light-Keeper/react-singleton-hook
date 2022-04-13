@@ -97,4 +97,23 @@ describe('singletonHook', () => {
     );
     expect(messages).toEqual(['initVal', 'newVal']);
   });
+
+  it('unmounts hook if no consumers', () => {
+    const unmountCallback = jest.fn();
+    const initVal = 'initVal';
+    const useHook = singletonHook(initVal, () => useEffect(() => unmountCallback), true);
+
+    const Tmp = () => {
+      useHook();
+      return null;
+    };
+
+    rtl.render(<SingletonHooksContainer/>);
+    const { unmount } = rtl.render(<Tmp/>);
+    const { unmount: unmountLastInstance } = rtl.render(<Tmp/>);
+    unmount();
+    expect(unmountCallback.mock.calls.length).toBe(0);
+    unmountLastInstance();
+    expect(unmountCallback.mock.calls.length).toBe(1);
+  });
 });

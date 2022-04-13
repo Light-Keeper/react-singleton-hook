@@ -8,7 +8,13 @@ let SingletonHooksContainerRendered = false;
 let SingletonHooksContainerMountedAutomatically = false;
 
 let mountQueue = [];
-const mountIntoContainerDefault = (item) => { mountQueue.push(item); };
+const mountIntoContainerDefault = (item) => {
+  mountQueue.push(item);
+  return () => {
+    throw new Error('damn');
+    // mountQueue = mountQueue.filter(i => i !== item);
+  };
+};
 let mountIntoContainer = mountIntoContainerDefault;
 
 export const SingletonHooksContainer = () => {
@@ -25,7 +31,12 @@ export const SingletonHooksContainer = () => {
   const [hooks, setHooks] = useState([]);
 
   useEffect(() => {
-    mountIntoContainer = item => setHooks(hooks => [...hooks, item]);
+    mountIntoContainer = item => {
+      setHooks(hooks => [...hooks, item]);
+      return () => {
+        setHooks(hooks => hooks.filter(i => i !== item));
+      };
+    };
     setHooks(mountQueue);
   }, []);
 
@@ -38,7 +49,7 @@ export const addHook = hook => {
     SingletonHooksContainerMountedAutomatically = true;
     mount(SingletonHooksContainer);
   }
-  mountIntoContainer(hook);
+  return mountIntoContainer(hook);
 };
 
 export const resetLocalStateForTests = () => {

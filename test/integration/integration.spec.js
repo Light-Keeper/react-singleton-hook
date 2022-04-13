@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import * as rtl from '@testing-library/react';
 import { singletonHook } from '../../src';
-import { resetLocalStateForTests } from '../../src/components/SingletonHooksContainer';
+import { resetLocalStateForTests, SingletonHooksContainer } from '../../src/components/SingletonHooksContainer';
 
 describe('singletonHook', () => {
   afterEach(() => {
@@ -107,5 +107,24 @@ describe('singletonHook', () => {
 
     rtl.render(<Tmp/>);
     expect(messages).toEqual(['initVal', 'newVal']);
+  });
+
+  it('unmounts hook if no consumers', () => {
+    const unmountCallback = jest.fn();
+    const initVal = 'initVal';
+    const useHook = singletonHook(initVal, () => useEffect(() => unmountCallback), true);
+
+    const Tmp = () => {
+      useHook();
+      return null;
+    };
+
+    rtl.render(<SingletonHooksContainer/>);
+    const { unmount } = rtl.render(<Tmp/>);
+    const { unmount: unmountLastInstance } = rtl.render(<Tmp/>);
+    unmount();
+    expect(unmountCallback.mock.calls.length).toBe(0);
+    unmountLastInstance();
+    expect(unmountCallback.mock.calls.length).toBe(1);
   });
 });
