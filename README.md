@@ -132,7 +132,7 @@ export const getDarkMode = () => currentMode;
 To use react-redux or any other context-based functionality, singleton hooks should be mounted under provider in your app.
 To do that, import `SingletonHooksContainer` from `react-singleton-hook` and mount anywhere in you app. 
 **SingletonHooksContainer must be rendered ealier then any component using singleton hook!**
-By default you are not required to dial with a `SingletonHooksContainer`, we run this component internally in separate react app.
+By default you are not required to deal with a `SingletonHooksContainer`, we run this component internally in separate react app.
 
 
 ```javascript
