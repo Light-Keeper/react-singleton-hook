@@ -1,61 +1,86 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { SingleItemContainer } from './SingleItemContainer';
 import { mount } from '../utils/env';
 import { warning } from '../utils/warning';
 
-let SingletonHooksContainerMounted = false;
-let SingletonHooksContainerRendered = false;
-let SingletonHooksContainerMountedAutomatically = false;
+let nextKey = 1;
+let automaticRender = false;
+let manualRender = false;
+const workingSet = [];
+const renderedContainers = [];
 
-let mountQueue = [];
-const mountIntoContainerDefault = (item) => {
-  mountQueue.push(item);
-  return () => {
-    throw new Error('Can not unmount container! It is like a bug in react-singleton-hook library, because of unmountIfNoConsumers: true');
-    // mountQueue = mountQueue.filter(i => i !== item);
-  };
+const notifyContainersAsync = () => {
+  renderedContainers.forEach(updateRenderedHooks => updateRenderedHooks());
 };
-let mountIntoContainer = mountIntoContainerDefault;
 
-export const SingletonHooksContainer = () => {
-  SingletonHooksContainerRendered = true;
-  useEffect(() => {
-    if (SingletonHooksContainerMounted) {
-      warning('SingletonHooksContainer is mounted second time. '
-        + 'You should mount SingletonHooksContainer before any other component and never unmount it.'
-        + 'Alternatively, dont use SingletonHooksContainer it at all, we will handle that for you.');
-    }
-    SingletonHooksContainerMounted = true;
-  }, []);
-
+export const SingletonHooksContainer = ({ automaticContainerInternalUseOnly }) => {
   const [hooks, setHooks] = useState([]);
+  const currentHooksRef = useRef();
+  currentHooksRef.current = hooks;
+
+  // if there was no automaticRender, and this one is not automatic as well
+  if (!automaticContainerInternalUseOnly && automaticRender === false) {
+    manualRender = true;
+  }
 
   useEffect(() => {
-    mountIntoContainer = item => {
-      setHooks(hooks => [...hooks, item]);
-      return () => {
-        setHooks(hooks => hooks.filter(i => i !== item));
-      };
+    let mounted = true;
+
+    function updateRenderedHooks() {
+      if (!mounted) return;
+
+      if (renderedContainers[0] !== updateRenderedHooks) {
+        if (!automaticContainerInternalUseOnly && automaticRender === true) {
+          warning('SingletonHooksContainer is mounted after some singleton hook has been used.'
+            + 'Your SingletonHooksContainer will not be used in favor of internal one.');
+        }
+        setHooks(_ => []);
+        return;
+      }
+
+      setHooks([...workingSet]);
+    }
+
+    renderedContainers.push(updateRenderedHooks);
+    notifyContainersAsync();
+
+    return () => {
+      mounted = false;
+
+      if (currentHooksRef.current.length > 0) {
+        warning('SingletonHooksContainer is unmounted, but it has active singleton hooks. '
+          + 'They will be reevaluated once SingletonHooksContainer is mounted again');
+      }
+
+      renderedContainers.splice(renderedContainers.indexOf(updateRenderedHooks), 1);
+      notifyContainersAsync();
     };
-    setHooks(mountQueue);
-  }, []);
+  }, [automaticContainerInternalUseOnly]);
 
-  return <>{hooks.map((h, i) => <SingleItemContainer {...h} key={i}/>)}</>;
+  return <>{hooks.map(({ hook, key }) => <SingleItemContainer {...hook} key={key}/>)}</>;
 };
-
 
 export const addHook = hook => {
-  if (!SingletonHooksContainerRendered && !SingletonHooksContainerMountedAutomatically) {
-    SingletonHooksContainerMountedAutomatically = true;
+  const key = nextKey++;
+  workingSet.push({ hook, key });
+
+  // no container and and no previous manually rendered containers
+  if (renderedContainers.length === 0 && manualRender === false) {
+    automaticRender = true;
     mount(SingletonHooksContainer);
   }
-  return mountIntoContainer(hook);
+
+  notifyContainersAsync();
+
+  return () => {
+    workingSet.splice(workingSet.findIndex(h => h.key === key), 1);
+    notifyContainersAsync();
+  };
 };
 
 export const resetLocalStateForTests = () => {
-  SingletonHooksContainerMounted = false;
-  SingletonHooksContainerRendered = false;
-  SingletonHooksContainerMountedAutomatically = false;
-  mountQueue = [];
-  mountIntoContainer = mountIntoContainerDefault;
+  automaticRender = false;
+  manualRender = false;
+  workingSet.splice(0, workingSet.length);
+  renderedContainers.splice(0, renderedContainers.length);
 };

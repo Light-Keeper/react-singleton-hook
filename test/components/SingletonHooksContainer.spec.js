@@ -12,16 +12,24 @@ describe('SingletonHooksContainer', () => {
     rtl.render(<SingletonHooksContainer/>);
   });
 
-  it('second mount prints a warning', () => {
+  it('mount after automatic mount prints a warning a warning', () => {
     let msg = '';
     const spy = jest.spyOn(console, 'warn').mockImplementation(data => { msg += data; });
+
+    rtl.act(() => {
+      addHook({
+        initValue: 'hello',
+        applyStateChange: (_) => { },
+        useHookBody: () => { }
+      });
+    });
+
     rtl.render(<div>
-      <SingletonHooksContainer/>
       <SingletonHooksContainer/>
     </div>);
 
     spy.mockRestore();
-    expect(msg).toContain('SingletonHooksContainer is mounted second time');
+    expect(msg).toContain('Your SingletonHooksContainer will not be used in favor of internal one.');
   });
 
   it('adds hooks to mounted container', () => {
