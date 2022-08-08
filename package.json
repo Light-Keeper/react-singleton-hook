@@ -1,6 +1,6 @@
 {
   "name": "react-singleton-hook",
-  "version": "3.4.0",
+  "version": "4.0.0",
   "description": "Share custom hook state across all components",
   "keywords": [
     "react",
@@ -36,7 +36,7 @@
     "ncu:apply": "ncu --reject react -u"
   },
   "peerDependencies": {
-    "react": "15 - 18"
+    "react": "18"
   },
   "peerDependenciesMeta": {
     "react-dom": {
