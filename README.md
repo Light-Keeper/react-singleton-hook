@@ -26,8 +26,8 @@ with a module bundler like [Webpack](https://webpack.js.org/) or
 modules](https://webpack.js.org/api/module-methods/#commonjs).
 
 ### React 18 breaking change
-`react-singleton-hook` version 4.0.0 starts using new React DOM API and is only compatible with react 18. 
-Please use 3.x.x if you have to stay on lover React versions.
+`react-singleton-hook` version 4.0.0 starts using new React DOM API and is only compatible with React 18. 
+Please use 3.4.0 if you have to stay on lover React versions.
 
 ## What is a singleton hook
 - Singleton hooks very similar to React Context in terms of functionality. Each singleton hook has a body,
