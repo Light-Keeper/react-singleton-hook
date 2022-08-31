@@ -1,5 +1,5 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import { unstable_batchedUpdates } from 'react-dom';
 import { warning } from './warning';
 
@@ -14,7 +14,7 @@ export const batch = cb => unstable_batchedUpdates(cb);
 export const mount = C => {
   if (globalObject.document && globalObject.document.createElement) {
     const container = globalObject.document.createElement('div');
-    const root = createRoot(container);
+    const root = ReactDOM.createRoot(container);
     root.render(<C automaticContainerInternalUseOnly={true}/>);
   } else {
     warning('Can not mount SingletonHooksContainer on server side. '
