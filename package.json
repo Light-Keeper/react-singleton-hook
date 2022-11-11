@@ -57,7 +57,7 @@
     "@babel/plugin-transform-react-jsx": "^7.19.0",
     "@babel/preset-env": "^7.20.2",
     "@rollup/plugin-commonjs": "^21.0.3",
-    "@rollup/plugin-node-resolve": "^13.2.0",
+    "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-replace": "^4.0.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/jest-native": "^5.2.0",
