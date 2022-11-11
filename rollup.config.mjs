@@ -3,7 +3,7 @@ import babel from 'rollup-plugin-babel';
 import replace from '@rollup/plugin-replace';
 import commonjs from '@rollup/plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
-import pkg from './package.json';
+import pkg from './package.json' assert { type: 'json' };
 
 const env = process.env.NODE_ENV;
 
