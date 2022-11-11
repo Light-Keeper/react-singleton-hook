@@ -64,7 +64,7 @@ export const addHook = hook => {
   const key = nextKey++;
   workingSet.push({ hook, key });
 
-  // no container and and no previous manually rendered containers
+  // no container and no previous manually rendered containers
   if (renderedContainers.length === 0 && manualRender === false) {
     automaticRender = true;
     mount(SingletonHooksContainer);
